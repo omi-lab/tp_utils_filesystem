@@ -19,7 +19,7 @@ std::vector<std::string> listFiles(const std::string& path, const std::unordered
         if(!std::experimental::filesystem::is_regular_file(i))
           continue;
 
-        if(extensions.find(i.extension().string()) == extensions.end())
+        if(extensions.find('*'+i.extension().string()) == extensions.end())
           continue;
 
         fileNames.push_back(i.string());
