@@ -18,6 +18,12 @@ std::vector<std::string> TP_UTILS_FILESYSTEM_SHARED_EXPORT listDirectories(const
 
 //##################################################################################################
 int64_t fileTimeMS(const std::string& path);
+
+//##################################################################################################
+bool copyFile(const std::string& pathFrom, const std::string& pathTo);
+
+//##################################################################################################
+bool mkdir(const std::string& path, bool createFullPath);
 }
 
 #endif

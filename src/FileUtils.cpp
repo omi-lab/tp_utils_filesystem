@@ -68,7 +68,7 @@ int64_t fileTimeMS(const std::string& path)
   {
     try
     {
-       timestamp=std::chrono::duration_cast<std::chrono::milliseconds>(std::experimental::filesystem::last_write_time(path).time_since_epoch()).count();
+      timestamp=std::chrono::duration_cast<std::chrono::milliseconds>(std::experimental::filesystem::last_write_time(path).time_since_epoch()).count();
     }
     catch(...)
     {
@@ -77,6 +77,45 @@ int64_t fileTimeMS(const std::string& path)
   }
 
   return timestamp;
+}
+
+//##################################################################################################
+bool copyFile(const std::string& pathFrom, const std::string& pathTo)
+{
+  if(!pathFrom.empty() && !pathTo.empty())
+  {
+    try
+    {
+      return std::experimental::filesystem::copy_file(pathFrom, pathTo);
+    }
+    catch(...)
+    {
+
+    }
+  }
+
+  return false;
+}
+
+//##################################################################################################
+bool mkdir(const std::string& path, bool createFullPath)
+{
+  if(!path.empty())
+  {
+    try
+    {
+      if(createFullPath)
+        return std::experimental::filesystem::create_directories(path);
+      else
+        return std::experimental::filesystem::create_directory(path);
+    }
+    catch(...)
+    {
+
+    }
+  }
+
+  return false;
 }
 
 }

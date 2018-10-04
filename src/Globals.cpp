@@ -12,6 +12,8 @@ void init()
   tp_utils::listFilesCallback = listFiles;
   tp_utils::listDirectoriesCallback = listDirectories;
   tp_utils::fileTimeMSCallback = fileTimeMS;
+  tp_utils::copyFileCallback = copyFile;
+  tp_utils::mkdirCallback = mkdir;
 }
 
 }
