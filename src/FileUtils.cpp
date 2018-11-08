@@ -118,4 +118,25 @@ bool mkdir(const std::string& path, bool createFullPath)
   return false;
 }
 
+//##################################################################################################
+bool rm(const std::string& path, bool recursive)
+{
+  if(!path.empty())
+  {
+    try
+    {
+      if(recursive)
+        return std::experimental::filesystem::remove_all(path);
+      else
+        return std::experimental::filesystem::remove(path);
+    }
+    catch(...)
+    {
+
+    }
+  }
+
+  return false;
+}
+
 }

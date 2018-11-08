@@ -24,6 +24,9 @@ bool copyFile(const std::string& pathFrom, const std::string& pathTo);
 
 //##################################################################################################
 bool mkdir(const std::string& path, bool createFullPath);
+
+//##################################################################################################
+bool rm(const std::string& path, bool recursive);
 }
 
 #endif
