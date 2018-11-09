@@ -1,12 +1,12 @@
 #ifndef tp_utils_filesystem_Globals_h
 #define tp_utils_filesystem_Globals_h
 
-#ifndef TP_UTILS_FILESYSTEM_SHARED_EXPORT
+#include "tp_utils/Globals.h"
+
 #if defined(TP_UTILS_FILESYSTEM_LIBRARY)
-#  define TP_UTILS_FILESYSTEM_SHARED_EXPORT
+#  define TP_UTILS_FILESYSTEM_SHARED_EXPORT TP_EXPORT
 #else
-#  define TP_UTILS_FILESYSTEM_SHARED_EXPORT
-#endif
+#  define TP_UTILS_FILESYSTEM_SHARED_EXPORT TP_IMPORT
 #endif
 
 //##################################################################################################
