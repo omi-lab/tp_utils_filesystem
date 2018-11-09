@@ -1,6 +1,14 @@
 #include "tp_utils_filesystem/FileUtils.h"
 
+
+#ifdef TDP_OSX
+#define TDP_BOOST_FILESYSTEM
+#include <boost/filesystem.hpp>
+namespace fs = boost::filesystem;
+#else
 #include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 
 namespace tp_utils_filesystem
 {
@@ -14,9 +22,9 @@ std::vector<std::string> listFiles(const std::string& path, const std::unordered
   {
     try
     {
-      for(const std::experimental::filesystem::path& i : std::experimental::filesystem::directory_iterator(path))
+      for(const fs::path& i : fs::directory_iterator(path))
       {
-        if(!std::experimental::filesystem::is_regular_file(i))
+        if(!fs::is_regular_file(i))
           continue;
 
         if(extensions.find('*'+i.extension().string()) == extensions.end())
@@ -43,9 +51,9 @@ std::vector<std::string> listDirectories(const std::string& path)
   {
     try
     {
-      for(const std::experimental::filesystem::path& i : std::experimental::filesystem::directory_iterator(path))
+      for(const fs::path& i : fs::directory_iterator(path))
       {
-        if(!std::experimental::filesystem::is_directory(i))
+        if(!fs::is_directory(i))
           continue;
 
         fileNames.push_back(i.string());
@@ -68,7 +76,11 @@ int64_t fileTimeMS(const std::string& path)
   {
     try
     {
-      timestamp=std::chrono::duration_cast<std::chrono::milliseconds>(std::experimental::filesystem::last_write_time(path).time_since_epoch()).count();
+#ifdef TDP_BOOST_FILESYSTEM
+      timestamp=int64_t(fs::last_write_time(path))*1000ll;
+#else
+      timestamp=std::chrono::duration_cast<std::chrono::milliseconds>(fs::last_write_time(path).time_since_epoch()).count();
+#endif
     }
     catch(...)
     {
@@ -86,7 +98,13 @@ bool copyFile(const std::string& pathFrom, const std::string& pathTo)
   {
     try
     {
-      return std::experimental::filesystem::copy_file(pathFrom, pathTo);
+#ifdef TDP_BOOST_FILESYSTEM
+      boost::system::error_code ec;
+      fs::copy_file(pathFrom, pathTo, fs::copy_option::overwrite_if_exists, ec);
+      return !bool(ec);
+#else
+      return fs::copy_file(pathFrom, pathTo);
+#endif
     }
     catch(...)
     {
@@ -105,9 +123,9 @@ bool mkdir(const std::string& path, bool createFullPath)
     try
     {
       if(createFullPath)
-        return std::experimental::filesystem::create_directories(path);
+        return fs::create_directories(path);
       else
-        return std::experimental::filesystem::create_directory(path);
+        return fs::create_directory(path);
     }
     catch(...)
     {
@@ -126,9 +144,9 @@ bool rm(const std::string& path, bool recursive)
     try
     {
       if(recursive)
-        return std::experimental::filesystem::remove_all(path);
+        return fs::remove_all(path);
       else
-        return std::experimental::filesystem::remove(path);
+        return fs::remove(path);
     }
     catch(...)
     {
