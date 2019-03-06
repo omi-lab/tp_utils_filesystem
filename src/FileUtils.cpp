@@ -116,13 +116,13 @@ bool copyFile(const std::string& pathFrom, const std::string& pathTo)
 }
 
 //##################################################################################################
-bool mkdir(const std::string& path, bool createFullPath)
+bool mkdir(const std::string& path, tp_utils::CreateFullPath createFullPath)
 {
   if(!path.empty())
   {
     try
     {
-      if(createFullPath)
+      if(createFullPath == tp_utils::CreateFullPath::Yes)
         return fs::create_directories(path);
       else
         return fs::create_directory(path);

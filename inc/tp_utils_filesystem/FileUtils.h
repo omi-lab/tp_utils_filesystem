@@ -23,7 +23,7 @@ int64_t fileTimeMS(const std::string& path);
 bool copyFile(const std::string& pathFrom, const std::string& pathTo);
 
 //##################################################################################################
-bool mkdir(const std::string& path, bool createFullPath);
+bool mkdir(const std::string& path, tp_utils::CreateFullPath createFullPath);
 
 //##################################################################################################
 bool rm(const std::string& path, bool recursive);
