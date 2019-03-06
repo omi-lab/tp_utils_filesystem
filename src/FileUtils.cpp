@@ -4,6 +4,9 @@
 #ifdef TDP_IOS //===================================================================================
 //No filesystem support on iOS.
 
+#elif defined(TDP_ANDROID) //=======================================================================
+//No filesystem support on Android.
+
 #elif defined(TDP_OSX) //===========================================================================
 //Still using boost filesystem on mac because filesystem does not appear to be in the std library
 //yet.
