@@ -117,7 +117,7 @@ bool copyFile(const std::string& pathFrom, const std::string& pathTo)
       fs::copy_file(pathFrom, pathTo, fs::copy_option::overwrite_if_exists, ec);
       return !bool(ec);
 #else
-      return fs::copy_file(pathFrom, pathTo);
+      return fs::copy_file(pathFrom, pathTo, fs::copy_options::overwrite_existing);
 #endif
     }
     catch(...)
