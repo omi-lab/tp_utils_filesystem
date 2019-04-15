@@ -27,6 +27,9 @@ bool mkdir(const std::string& path, tp_utils::CreateFullPath createFullPath);
 
 //##################################################################################################
 bool rm(const std::string& path, bool recursive);
+
+//##################################################################################################
+bool exists(const std::string& path);
 }
 
 #endif

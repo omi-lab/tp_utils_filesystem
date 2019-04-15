@@ -171,6 +171,24 @@ bool rm(const std::string& path, bool recursive)
   return false;
 }
 
+//##################################################################################################
+bool exists(const std::string& path)
+{
+  if(!path.empty())
+  {
+    try
+    {
+      return fs::exists(path);
+    }
+    catch(...)
+    {
+
+    }
+  }
+
+  return false;
+}
+
 #else
 
 //##################################################################################################
@@ -218,6 +236,13 @@ bool rm(const std::string& path, bool recursive)
 {
   TP_UNUSED(path);
   TP_UNUSED(recursive);
+  return false;
+}
+
+//##################################################################################################
+bool exists(const std::string& path)
+{
+  TP_UNUSED(path);
   return false;
 }
 
