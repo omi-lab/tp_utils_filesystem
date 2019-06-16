@@ -138,8 +138,7 @@ bool mkdir(const std::string& path, tp_utils::CreateFullPath createFullPath)
     {
       if(createFullPath == tp_utils::CreateFullPath::Yes)
         return fs::create_directories(path);
-      else
-        return fs::create_directory(path);
+      return fs::create_directory(path);
     }
     catch(...)
     {
@@ -159,8 +158,7 @@ bool rm(const std::string& path, bool recursive)
     {
       if(recursive)
         return fs::remove_all(path);
-      else
-        return fs::remove(path);
+      return fs::remove(path);
     }
     catch(...)
     {
