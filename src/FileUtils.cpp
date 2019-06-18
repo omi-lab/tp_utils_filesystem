@@ -41,7 +41,9 @@ std::vector<std::string> listFiles(const std::string& path, const std::unordered
         if(!fs::is_regular_file(i))
           continue;
 
-        if(extensions.find('*'+i.extension().string()) == extensions.end())
+        auto ext = i.extension().string();
+        std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+        if(extensions.find('*'+ext) == extensions.end())
           continue;
 
         fileNames.push_back(i.string());
