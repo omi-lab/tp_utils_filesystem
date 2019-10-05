@@ -1,13 +1,13 @@
 #include "tp_utils_filesystem/FileUtils.h"
 
 
-#ifdef tp_qt_IOS //===================================================================================
+#ifdef TP_IOS //===================================================================================
 //No filesystem support on iOS.
 
-#elif defined(tp_qt_ANDROID) //=======================================================================
+#elif defined(TP_ANDROID) //=======================================================================
 //No filesystem support on Android.
 
-#elif defined(tp_qt_OSX) //===========================================================================
+#elif defined(TP_OSX) //===========================================================================
 //Still using boost filesystem on mac because filesystem does not appear to be in the std library
 //yet.
 #define TP_BOOST_FILESYSTEM
