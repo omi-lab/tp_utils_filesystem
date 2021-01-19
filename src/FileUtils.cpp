@@ -189,6 +189,25 @@ bool exists(const std::string& path)
   return false;
 }
 
+//##################################################################################################
+size_t fileSize(const std::string& path)
+{
+
+  if(!path.empty())
+  {
+    try
+    {
+      return size_t(fs::file_size(path));
+    }
+    catch(...)
+    {
+
+    }
+  }
+
+  return 0;
+}
+
 #else
 
 //##################################################################################################

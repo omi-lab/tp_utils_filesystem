@@ -16,6 +16,7 @@ void init()
   tp_utils::mkdirCallback = mkdir;
   tp_utils::rmCallback = rm;
   tp_utils::existsCallback = exists;
+  tp_utils::fileSizeCallback = fileSize;
 }
 
 }
