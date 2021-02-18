@@ -1,18 +1,23 @@
 #include "tp_utils_filesystem/FileUtils.h"
 
 
-#ifdef TP_IOS //===================================================================================
+#ifdef TP_IOS //====================================================================================
 //No filesystem support on iOS.
 
-#elif defined(TP_ANDROID) //=======================================================================
+#elif defined(TP_ANDROID) //========================================================================
 //No filesystem support on Android.
 
-#elif defined(TP_OSX) //===========================================================================
+#elif defined(TP_OSX) //============================================================================
 //Still using boost filesystem on mac because filesystem does not appear to be in the std library
 //yet.
 #define TP_BOOST_FILESYSTEM
 #include <boost/filesystem.hpp>
 namespace fs = boost::filesystem;
+#define TP_FS
+
+#elif defined(TP_WIN32) //==========================================================================
+#include <filesystem>
+namespace fs = std::filesystem;
 #define TP_FS
 
 #else //============================================================================================
