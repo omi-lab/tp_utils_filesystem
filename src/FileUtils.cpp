@@ -15,9 +15,16 @@
 namespace fs = boost::filesystem;
 #define TP_FS
 
-#elif defined(TP_WIN32) //==========================================================================
+#elif defined(TP_WIN32_MSVC) //=====================================================================
 #include <filesystem>
 namespace fs = std::filesystem;
+#define TP_FS
+
+#elif defined(TP_WIN32_MINGW) //====================================================================
+// Seems to be a bug with MinGW / GCC version on Windows.
+#define TP_BOOST_FILESYSTEM
+#include <boost/filesystem.hpp>
+namespace fs = boost::filesystem;
 #define TP_FS
 
 #else //============================================================================================
