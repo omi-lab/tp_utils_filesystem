@@ -245,21 +245,22 @@ bool setPermissions(const std::string& path, unsigned permissions)
 {
   unsigned perms=0;
 
-  perms |= (permissions & tp_utils::owner_read  )?fs::owner_read  :0;
-  perms |= (permissions & tp_utils::owner_write )?fs::owner_write :0;
-  perms |= (permissions & tp_utils::owner_exe   )?fs::owner_exe   :0;
-  perms |= (permissions & tp_utils::owner_all   )?fs::owner_all   :0;
+  perms |= (permissions & tp_utils::owner_read  )?unsigned(fs::perms::owner_read  ):0;
+  perms |= (permissions & tp_utils::owner_write )?unsigned(fs::perms::owner_write ):0;
+  perms |= (permissions & tp_utils::owner_all   )?unsigned(fs::perms::owner_all   ):0;
 
-  perms |= (permissions & tp_utils::group_read  )?fs::group_read  :0;
-  perms |= (permissions & tp_utils::group_write )?fs::group_write :0;
-  perms |= (permissions & tp_utils::group_exe   )?fs::group_exe   :0;
-  perms |= (permissions & tp_utils::group_all   )?fs::group_all   :0;
+  perms |= (permissions & tp_utils::group_read  )?unsigned(fs::perms::group_read  ):0;
+  perms |= (permissions & tp_utils::group_write )?unsigned(fs::perms::group_write ):0;
+  perms |= (permissions & tp_utils::group_all   )?unsigned(fs::perms::group_all   ):0;
 
-  perms |= (permissions & tp_utils::others_read )?fs::others_read :0;
-  perms |= (permissions & tp_utils::others_write)?fs::others_write:0;
-  perms |= (permissions & tp_utils::others_exe  )?fs::others_exe  :0;
-  perms |= (permissions & tp_utils::others_all  )?fs::others_all  :0;
+  perms |= (permissions & tp_utils::others_read )?unsigned(fs::perms::others_read ):0;
+  perms |= (permissions & tp_utils::others_write)?unsigned(fs::perms::others_write):0;
+  perms |= (permissions & tp_utils::others_all  )?unsigned(fs::perms::others_all  ):0;
 
+#ifdef TP_BOOST_FILESYSTEM
+  perms |= (permissions & tp_utils::owner_exec  )?unsigned(fs::perms::owner_exe   ):0;
+  perms |= (permissions & tp_utils::group_exec  )?unsigned(fs::perms::group_exe   ):0;
+  perms |= (permissions & tp_utils::others_exec )?unsigned(fs::perms::others_exe  ):0;
   try
   {
     fs::permissions(path, fs::add_perms|fs::perms(perms));
@@ -269,6 +270,16 @@ bool setPermissions(const std::string& path, unsigned permissions)
   catch(...)
   {
   }
+#else
+  perms |= (permissions & tp_utils::owner_exec  )?unsigned(fs::perms::owner_exec ):0;
+  perms |= (permissions & tp_utils::group_exec  )?unsigned(fs::perms::group_exec ):0;
+  perms |= (permissions & tp_utils::others_exec )?unsigned(fs::perms::others_exec):0;
+
+  std::error_code ec;
+  fs::permissions(path, fs::perms::add_perms|fs::perms(perms), ec);
+  fs::permissions(path, fs::perms::remove_perms|~fs::perms(perms), ec);
+#endif
+
   return false;
 }
 
