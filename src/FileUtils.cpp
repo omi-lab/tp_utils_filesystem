@@ -1,5 +1,7 @@
 #include "tp_utils_filesystem/FileUtils.h"
 
+#include "tp_utils/DebugUtils.h"
+#include "tp_utils/FileUtils.h"
 
 #ifdef TP_IOS //====================================================================================
 //No filesystem support on iOS.
@@ -166,21 +168,39 @@ bool mkdir(const std::string& path, tp_utils::CreateFullPath createFullPath)
 //##################################################################################################
 bool rm(const std::string& path, bool recursive)
 {
+  bool ok=false;
+
   if(!path.empty())
-  {
+  {    
+#ifdef TP_BOOST_FILESYSTEM
+    boost::system::error_code ec;
+
+    if(recursive)
+      ok = fs::remove_all(path, ec);
+    else
+      ok = fs::remove(path, ec);
+
+    if(ec.failed())
+    {
+      tpWarning() << "Failed to rm: " << path << " error (" << ec.message() << ')';
+      return false;
+    }
+#else
     try
     {
       if(recursive)
-        return fs::remove_all(path);
-      return fs::remove(path);
+        ok = fs::remove_all(path);
+      else
+        ok = fs::remove(path);
     }
-    catch(...)
+    catch (...)
     {
 
     }
+#endif
   }
 
-  return false;
+  return ok;
 }
 
 //##################################################################################################
@@ -218,6 +238,57 @@ size_t fileSize(const std::string& path)
   }
 
   return 0;
+}
+
+//##################################################################################################
+bool setPermissions(const std::string& path, unsigned permissions)
+{
+  unsigned perms=0;
+
+  perms |= (permissions & tp_utils::owner_read  )?fs::owner_read  :0;
+  perms |= (permissions & tp_utils::owner_write )?fs::owner_write :0;
+  perms |= (permissions & tp_utils::owner_exe   )?fs::owner_exe   :0;
+  perms |= (permissions & tp_utils::owner_all   )?fs::owner_all   :0;
+
+  perms |= (permissions & tp_utils::group_read  )?fs::group_read  :0;
+  perms |= (permissions & tp_utils::group_write )?fs::group_write :0;
+  perms |= (permissions & tp_utils::group_exe   )?fs::group_exe   :0;
+  perms |= (permissions & tp_utils::group_all   )?fs::group_all   :0;
+
+  perms |= (permissions & tp_utils::others_read )?fs::others_read :0;
+  perms |= (permissions & tp_utils::others_write)?fs::others_write:0;
+  perms |= (permissions & tp_utils::others_exe  )?fs::others_exe  :0;
+  perms |= (permissions & tp_utils::others_all  )?fs::others_all  :0;
+
+  try
+  {
+    fs::permissions(path, fs::add_perms|fs::perms(perms));
+    fs::permissions(path, fs::remove_perms|~fs::perms(perms));
+    return true;
+  }
+  catch(...)
+  {
+  }
+  return false;
+}
+
+//##################################################################################################
+bool setCWD(const std::string& path)
+{
+  if(!path.empty())
+  {
+    try
+    {
+      fs::current_path(path);
+      return true;
+    }
+    catch(...)
+    {
+
+    }
+  }
+
+  return false;
 }
 
 #else

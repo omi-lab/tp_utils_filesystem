@@ -17,6 +17,8 @@ void init()
   tp_utils::rmCallback = rm;
   tp_utils::existsCallback = exists;
   tp_utils::fileSizeCallback = fileSize;
+  tp_utils::setCWDCallback = setCWD;
+  tp_utils::setPermissionsCallback = setPermissions;
 }
 
 }
