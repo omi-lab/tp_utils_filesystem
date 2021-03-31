@@ -15,7 +15,7 @@ namespace tp_utils_filesystem
 {
 
 //##################################################################################################
-//! Call this once at start of main
+//! Call this once at start of main to install file system utils into tp_utils.
 void init();
 
 }
