@@ -276,8 +276,15 @@ bool setPermissions(const std::string& path, unsigned permissions)
   perms |= (permissions & tp_utils::others_exec )?unsigned(fs::perms::others_exec):0;
 
   std::error_code ec;
+
+#ifdef TP_WIN32_MSVC
+  fs::permissions(path, fs::perms(perms), fs::perm_options::add, ec);
+  fs::permissions(path, ~fs::perms(perms), fs::perm_options::remove, ec);
+#else
   fs::permissions(path, fs::perms::add_perms|fs::perms(perms), ec);
   fs::permissions(path, fs::perms::remove_perms|~fs::perms(perms), ec);
+#endif
+
 #endif
 
   return false;
