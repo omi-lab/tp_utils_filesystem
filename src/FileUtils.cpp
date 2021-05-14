@@ -52,13 +52,16 @@ std::vector<std::string> listFiles(const std::string& path, const std::unordered
     {
       for(const fs::path& i : fs::directory_iterator(path))
       {
-        if(!fs::is_regular_file(i))
+        if(!fs::is_regular_file(i) && !fs::is_symlink(i))
           continue;
 
-        auto ext = i.extension().string();
-        std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
-        if(extensions.find('*'+ext) == extensions.end())
-          continue;
+        if(!extensions.empty())
+        {
+          auto ext = i.extension().string();
+          std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+          if(extensions.find('*'+ext) == extensions.end())
+            continue;
+        }
 
         fileNames.push_back(i.string());
       }
