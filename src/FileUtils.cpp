@@ -312,6 +312,25 @@ bool setCWD(const std::string& path)
   return false;
 }
 
+//##################################################################################################
+std::string cwd()
+{
+  try
+  {
+#ifdef TP_WIN32_MSVC
+    std::wstring s = fs::current_path().c_str();
+    return tpToUTF8(s);
+#else
+    return fs::current_path().c_str();
+#endif
+  }
+  catch(...)
+  {
+
+  }
+  return std::string();
+}
+
 #else
 
 //##################################################################################################
