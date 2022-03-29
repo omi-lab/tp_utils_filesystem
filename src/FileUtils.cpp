@@ -44,7 +44,7 @@ namespace tp_utils_filesystem
 //##################################################################################################
 std::vector<std::string> listFiles(const std::string& path, const std::unordered_set<std::string>& extensions)
 {
-  std::vector<std::string> fileNames;
+  std::vector<std::string> filenames;
 
   if(!path.empty())
   {
@@ -63,7 +63,7 @@ std::vector<std::string> listFiles(const std::string& path, const std::unordered
             continue;
         }
 
-        fileNames.push_back(i.string());
+        filenames.push_back(i.string());
       }
     }
     catch(...)
@@ -72,13 +72,13 @@ std::vector<std::string> listFiles(const std::string& path, const std::unordered
     }
   }
 
-  return fileNames;
+  return filenames;
 }
 
 //##################################################################################################
 std::vector<std::string> listDirectories(const std::string& path)
 {
-  std::vector<std::string> fileNames;
+  std::vector<std::string> filenames;
 
   if(!path.empty())
   {
@@ -89,7 +89,7 @@ std::vector<std::string> listDirectories(const std::string& path)
         if(!fs::is_directory(i))
           continue;
 
-        fileNames.push_back(i.string());
+        filenames.push_back(i.string());
       }
     }
     catch(...)
@@ -98,7 +98,7 @@ std::vector<std::string> listDirectories(const std::string& path)
     }
   }
 
-  return fileNames;
+  return filenames;
 }
 
 //##################################################################################################
@@ -336,18 +336,18 @@ std::string cwd()
 //##################################################################################################
 std::vector<std::string> listFiles(const std::string& path, const std::unordered_set<std::string>& extensions)
 {
-  std::vector<std::string> fileNames;
+  std::vector<std::string> filenames;
   TP_UNUSED(path);
   TP_UNUSED(extensions);
-  return fileNames;
+  return filenames;
 }
 
 //##################################################################################################
 std::vector<std::string> listDirectories(const std::string& path)
 {
-  std::vector<std::string> fileNames;
+  std::vector<std::string> filenames;
   TP_UNUSED(path);
-  return fileNames;
+  return filenames;
 }
 
 //##################################################################################################
