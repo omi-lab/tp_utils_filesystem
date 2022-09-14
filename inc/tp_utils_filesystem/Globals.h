@@ -1,7 +1,7 @@
 #ifndef tp_utils_filesystem_Globals_h
 #define tp_utils_filesystem_Globals_h
 
-#include "tp_utils/Globals.h"
+#include "tp_utils/Globals.h" // IWYU pragma: keep
 
 #if defined(TP_UTILS_FILESYSTEM_LIBRARY)
 #  define TP_UTILS_FILESYSTEM_SHARED_EXPORT TP_EXPORT
