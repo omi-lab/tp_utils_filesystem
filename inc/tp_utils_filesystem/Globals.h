@@ -4,9 +4,9 @@
 #include "tp_utils/Globals.h" // IWYU pragma: keep
 
 #if defined(TP_UTILS_FILESYSTEM_LIBRARY)
-#  define TP_UTILS_FILESYSTEM_SHARED_EXPORT TP_EXPORT
+#  define TP_UTILS_FILESYSTEM_EXPORT TP_EXPORT
 #else
-#  define TP_UTILS_FILESYSTEM_SHARED_EXPORT TP_IMPORT
+#  define TP_UTILS_FILESYSTEM_EXPORT TP_IMPORT
 #endif
 
 //##################################################################################################

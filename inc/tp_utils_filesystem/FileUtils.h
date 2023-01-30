@@ -11,10 +11,10 @@ namespace tp_utils_filesystem
 {
 
 //##################################################################################################
-std::vector<std::string> TP_UTILS_FILESYSTEM_SHARED_EXPORT listFiles(const std::string& path, const std::unordered_set<std::string>& extensions);
+std::vector<std::string> TP_UTILS_FILESYSTEM_EXPORT listFiles(const std::string& path, const std::unordered_set<std::string>& extensions);
 
 //##################################################################################################
-std::vector<std::string> TP_UTILS_FILESYSTEM_SHARED_EXPORT listDirectories(const std::string& path);
+std::vector<std::string> TP_UTILS_FILESYSTEM_EXPORT listDirectories(const std::string& path);
 
 //##################################################################################################
 int64_t fileTimeMS(const std::string& path);
