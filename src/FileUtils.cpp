@@ -31,8 +31,8 @@ namespace fs = boost::filesystem;
 
 #else //============================================================================================
 //On other platforms filesystem is still in experimental.
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
+#include <filesystem>
+namespace fs = std::filesystem;
 #define TP_FS
 
 #endif
@@ -281,6 +281,9 @@ bool setPermissions(const std::string& path, unsigned permissions)
   std::error_code ec;
 
 #ifdef TP_WIN32_MSVC
+  fs::permissions(path, fs::perms(perms), fs::perm_options::add, ec);
+  fs::permissions(path, ~fs::perms(perms), fs::perm_options::remove, ec);
+#elif defined(TP_LINUX)
   fs::permissions(path, fs::perms(perms), fs::perm_options::add, ec);
   fs::permissions(path, ~fs::perms(perms), fs::perm_options::remove, ec);
 #else
