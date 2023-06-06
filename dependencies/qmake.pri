@@ -2,7 +2,7 @@ DEFINES += TP_FILESYSTEM
 
 macx {
   custom_boost {
-    # Custom bost config has been specified in project.inc
+    # Custom boost config has been specified in project.inc
     # CONFIG += custom_boost
   }else {
     SLIBS        += boost_system
