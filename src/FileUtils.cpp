@@ -149,6 +149,64 @@ bool copyFile(const std::string& pathFrom, const std::string& pathTo)
 }
 
 //##################################################################################################
+bool cp(const std::string& pathFrom, const std::string& pathTo, bool recursive)
+{
+  if(!pathFrom.empty() && !pathTo.empty())
+  {
+    try
+    {
+#ifdef TP_BOOST_FILESYSTEM
+      boost::system::error_code ec;
+      fs::copy_options options = fs::copy_options::overwrite_if_exists;
+      if(recursive)
+        options |= fs::copy_options::recursive;
+
+      fs::copy(pathFrom, pathTo, options, ec);
+      return !bool(ec);
+#else
+      fs::copy_options options = fs::copy_options::overwrite_existing;
+      if(recursive)
+        options |= fs::copy_options::recursive;
+
+      fs::copy(pathFrom, pathTo, options);
+      return true;
+#endif
+    }
+    catch(...)
+    {
+
+    }
+  }
+
+  return false;
+}
+
+//##################################################################################################
+bool mv(const std::string& pathFrom, const std::string& pathTo)
+{
+  if(!pathFrom.empty() && !pathTo.empty())
+  {
+    try
+    {
+#ifdef TP_BOOST_FILESYSTEM
+      boost::system::error_code ec;
+      fs::rename(pathFrom, pathTo, ec);
+      return !bool(ec);
+#else
+      fs::rename(pathFrom, pathTo);
+      return true;
+#endif
+    }
+    catch(...)
+    {
+
+    }
+  }
+
+  return false;
+}
+
+//##################################################################################################
 bool mkdir(const std::string& path, tp_utils::CreateFullPath createFullPath)
 {
   if(!path.empty())
@@ -362,6 +420,22 @@ int64_t fileTimeMS(const std::string& path)
 
 //##################################################################################################
 bool copyFile(const std::string& pathFrom, const std::string& pathTo)
+{
+  TP_UNUSED(pathFrom);
+  TP_UNUSED(pathTo);
+  return false;
+}
+
+//##################################################################################################
+bool cp(const std::string& pathFrom, const std::string& pathTo, bool recursive)
+{
+  TP_UNUSED(pathFrom);
+  TP_UNUSED(pathTo);
+  return false;
+}
+
+//##################################################################################################
+bool mv(const std::string& pathFrom, const std::string& pathTo)
 {
   TP_UNUSED(pathFrom);
   TP_UNUSED(pathTo);

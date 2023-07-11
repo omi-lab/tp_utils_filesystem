@@ -13,6 +13,8 @@ void init()
   tp_utils::listDirectoriesCallback = listDirectories;
   tp_utils::fileTimeMSCallback = fileTimeMS;
   tp_utils::copyFileCallback = copyFile;
+  tp_utils::cpCallback = cp;
+  tp_utils::mvCallback = mv;
   tp_utils::mkdirCallback = mkdir;
   tp_utils::rmCallback = rm;
   tp_utils::existsCallback = exists;
