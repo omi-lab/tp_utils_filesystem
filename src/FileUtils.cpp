@@ -133,7 +133,7 @@ bool copyFile(const std::string& pathFrom, const std::string& pathTo)
     {
 #ifdef TP_BOOST_FILESYSTEM
       boost::system::error_code ec;
-      fs::copy_file(pathFrom, pathTo, fs::copy_option::overwrite_if_exists, ec);
+      fs::copy_file(pathFrom, pathTo, fs::copy_options::overwrite_existing, ec);
       return !bool(ec);
 #else
       return fs::copy_file(pathFrom, pathTo, fs::copy_options::overwrite_existing);
@@ -157,7 +157,7 @@ bool cp(const std::string& pathFrom, const std::string& pathTo, bool recursive)
     {
 #ifdef TP_BOOST_FILESYSTEM
       boost::system::error_code ec;
-      fs::copy_options options = fs::copy_options::overwrite_if_exists;
+      fs::copy_options options = fs::copy_options::overwrite_existing;
       if(recursive)
         options |= fs::copy_options::recursive;
 
