@@ -149,7 +149,7 @@ bool copyFile(const std::string& pathFrom, const std::string& pathTo)
 }
 
 //##################################################################################################
-bool cp(const std::string& pathFrom, const std::string& pathTo, bool recursive)
+bool cp(const std::string& pathFrom, const std::string& pathTo, TPRecursive recursive)
 {
   if(!pathFrom.empty() && !pathTo.empty())
   {
@@ -158,14 +158,14 @@ bool cp(const std::string& pathFrom, const std::string& pathTo, bool recursive)
 #ifdef TP_BOOST_FILESYSTEM
       boost::system::error_code ec;
       fs::copy_options options = fs::copy_options::overwrite_existing;
-      if(recursive)
+      if(recursive == TPRecursive::Yes)
         options |= fs::copy_options::recursive;
 
       fs::copy(pathFrom, pathTo, options, ec);
       return !bool(ec);
 #else
       fs::copy_options options = fs::copy_options::overwrite_existing;
-      if(recursive)
+      if(recursive == TPRecursive::Yes)
         options |= fs::copy_options::recursive;
 
       fs::copy(pathFrom, pathTo, options);
@@ -207,13 +207,13 @@ bool mv(const std::string& pathFrom, const std::string& pathTo)
 }
 
 //##################################################################################################
-bool mkdir(const std::string& path, tp_utils::CreateFullPath createFullPath)
+bool mkdir(const std::string& path, TPCreateFullPath createFullPath)
 {
   if(!path.empty())
   {
     try
     {
-      if(createFullPath == tp_utils::CreateFullPath::Yes)
+      if(createFullPath == TPCreateFullPath::Yes)
         return fs::create_directories(path);
       return fs::create_directory(path);
     }
@@ -227,7 +227,7 @@ bool mkdir(const std::string& path, tp_utils::CreateFullPath createFullPath)
 }
 
 //##################################################################################################
-bool rm(const std::string& path, bool recursive)
+bool rm(const std::string& path, TPRecursive recursive)
 {
   bool ok=false;
 
@@ -236,7 +236,7 @@ bool rm(const std::string& path, bool recursive)
 #ifdef TP_BOOST_FILESYSTEM
     boost::system::error_code ec;
 
-    if(recursive)
+    if(recursive == TPRecursive::Yes)
       ok = fs::remove_all(path, ec);
     else
       ok = fs::remove(path, ec);
@@ -249,7 +249,7 @@ bool rm(const std::string& path, bool recursive)
 #else
     try
     {
-      if(recursive)
+      if(recursive == TPRecursive::Yes)
         ok = fs::remove_all(path);
       else
         ok = fs::remove(path);
@@ -443,7 +443,7 @@ bool mv(const std::string& pathFrom, const std::string& pathTo)
 }
 
 //##################################################################################################
-bool mkdir(const std::string& path, tp_utils::CreateFullPath createFullPath)
+bool mkdir(const std::string& path, TPCreateFullPath createFullPath)
 {
   TP_UNUSED(path);
   TP_UNUSED(createFullPath);
